@@ -5,4 +5,6 @@ const UseRouter = Router()
 
 UseRouter.post('/create-product', productController.createProduct)
 UseRouter.get('/', productController.getProduct)
+UseRouter.get('/:productId', productController.getProductById)
+UseRouter.put('/:productId', productController.updateProducts)
  export default UseRouter
