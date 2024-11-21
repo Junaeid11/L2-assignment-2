@@ -64,8 +64,26 @@ const updateProducts =async (req:Request, res:Response)=>{
         const data = await productServices.updateProductFromDb(productId, productData)
         res.status(200).json({
             success: true,
-            message:'Bicycles retrieved successfully',
+            message:'Bicycles updated successfully',
             data: data  
+        })
+    }
+    catch(err){
+        res.status(400).json({
+            success: false,
+            message: "Product creation failed",
+            err
+        })
+    }
+}
+const deleteProducts =async (req:Request, res:Response)=>{
+    try{
+        const productId = req.params.productId
+       await productServices.deleteProductFromDb(productId)
+        res.status(200).json({
+            success: true,
+            message:'Bicycles deleted successfully',
+            data:{}  
         })
     }
     catch(err){
@@ -84,5 +102,6 @@ export const productController = {
     createProduct,
     getProduct,
     getProductById,
-    updateProducts
+    updateProducts,
+    deleteProducts
 }

@@ -15,14 +15,7 @@ const productSchema = new Schema<BiCycle>({
     inStock: { type: Boolean, required: true },
 },{timestamps: true}
 );
-// productSchema.post('find', function(docs){
-//     docs.forEach((doc)=>{
-//         doc.set({updateAt: new Date()});
-//         doc.save();
-//     })
-   
-// })
 
 
-const Product = model<BiCycle>('Product', productSchema);
-export default Product;
+const ProductModel = model<BiCycle>('Product', productSchema);
+export default ProductModel;

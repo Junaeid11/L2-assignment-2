@@ -22,10 +22,16 @@ const updateProductFromDb = async (id: string, data: BiCycle)=>{
     return result
 
 }
+const deleteProductFromDb = async (id: string)=>{
+    const result = await Product.findByIdAndDelete(id)
+    return result
+
+}
 
 export const productServices = {
     createProductIntoDb,
     getProductFromDb,
     getProductByIdFromDb,
-    updateProductFromDb
+    updateProductFromDb,
+    deleteProductFromDb
 }
