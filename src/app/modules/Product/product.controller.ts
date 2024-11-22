@@ -1,95 +1,101 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.service";
-import productValidationSchema from "./product.validation";
+import productValidationSchema, { formatZodError } from "./product.validation";
+import { z } from "zod";
 
-const createProduct = async (req: Request, res: Response) => {
-    try{
+
+const createProduct = async (req: Request, res: Response, ): Promise<void> => {
+    try {
         const data = req.body;
-        const validateProduct = await productValidationSchema.parse(data)
+        const validateProduct =  productValidationSchema.parse(data)
         const result = await productServices.createProductIntoDb(validateProduct);
         res.status(200).json({
+            message: "Bicycle created successfully",
             success: true,
-            message:'Product created successfully',
-            data: result 
-           }) }
-           catch(err){
-               res.status(400).json({
-                   success: false,
-                   message: "Product creation failed",
-                   err
-               })
-           }
+
+            data: result
+        })
+    }catch (err){
+        if (err instanceof z.ZodError) {
+          const formattedError = formatZodError(err, err.stack);
+           res.status(400).json({
+            message: "Validation failed",
+            success: false,
+            error: formattedError,
+          });
+        }
+    }
 }
 
 
-const getProduct = async (req:Request,res:Response)=>{
-    try{
+const getProducts = async (req: Request, res: Response) => {
+    try {
         const data = await productServices.getProductFromDb()
         res.status(200).json({
+            message: 'Bicycles retrieved successfully',
             success: true,
-            message:'Bicycles retrieved successfully',
-            data: data  
+            data: data
         })
     }
-    catch(err){
+    catch (err) {
         res.status(400).json({
+            message: "Bicycles retrieve failed",
             success: false,
-            message: "Product creation failed",
             err
         })
     }
 }
-const getProductById =async (req:Request, res:Response)=>{
-    try{
+const getProductById = async (req: Request, res: Response) => {
+    try {
         const productId = req.params.productId
         const data = await productServices.getProductByIdFromDb(productId)
         res.status(200).json({
+            message: 'Bicycles retrieved successfully',
             success: true,
-            message:'Bicycles retrieved successfully',
-            data: data  
+            data: data
         })
     }
-    catch(err){
+    catch (err) {
         res.status(400).json({
+            message: "Bicycles retrieve failed",
             success: false,
-            message: "Product creation failed",
             err
         })
     }
 }
-const updateProducts =async (req:Request, res:Response)=>{
-    try{
+const updateProducts = async (req: Request, res: Response) => {
+    try {
         const productId = req.params.productId
         const productData = req.body
         const data = await productServices.updateProductFromDb(productId, productData)
         res.status(200).json({
+            message: 'Bicycles updated successfully',
             success: true,
-            message:'Bicycles updated successfully',
-            data: data  
+            data: data
         })
     }
-    catch(err){
+    catch (err) {
         res.status(400).json({
-            success: false,
-            message: "Product creation failed",
+           message: "Product update failed",
+           success: false,
             err
         })
     }
 }
-const deleteProducts =async (req:Request, res:Response)=>{
-    try{
+const deleteProducts = async (req: Request, res: Response) => {
+    try {
         const productId = req.params.productId
-       await productServices.deleteProductFromDb(productId)
+        await productServices.deleteProductFromDb(productId)
         res.status(200).json({
+            message: 'Bicycles deleted successfully',
             success: true,
-            message:'Bicycles deleted successfully',
-            data:{}  
+            data: {}
         })
     }
-    catch(err){
+    catch (err) {
         res.status(400).json({
+            message: "Bicycles delete failed",
             success: false,
-            message: "Product creation failed",
             err
         })
     }
@@ -100,7 +106,7 @@ const deleteProducts =async (req:Request, res:Response)=>{
 
 export const productController = {
     createProduct,
-    getProduct,
+    getProducts,
     getProductById,
     updateProducts,
     deleteProducts

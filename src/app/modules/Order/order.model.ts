@@ -9,9 +9,9 @@ const orderSchema = new Schema<Order>({
     quantity: { type: Number, required: true },
     totalPrice: {type: Number, required: true}
 
-})
+},{timestamps: true} )
 
 
 
-const Order = model<Order>('Order', orderSchema);
-export default Order
+const OrderModel = model<Order>('Order', orderSchema);
+export default OrderModel
