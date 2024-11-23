@@ -39,8 +39,25 @@ const getRevenue =async (req:Request, res:Response)=>{
     }
 }
 
-
+const getOrders = async (req:Request, res:Response)=>{
+    try{
+        const data = await orderServices.getAllOrdersFromDb();
+        res.status(200).json({
+            message:'Orders retrieved successfully',
+            success: true,
+            data: data  
+        })
+    }
+    catch(err){
+        res.status(400).json({
+            message: "Orders retrieve failed",
+            success: false,
+            err
+        })
+    }
+}
 export const orderController ={
     createOrder,
-    getRevenue
+    getRevenue,
+    getOrders
 }

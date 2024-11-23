@@ -1,18 +1,20 @@
 import { model, Schema } from "mongoose";
 import { BiCycle } from "./product.interface";
-    const productSchema = new Schema<BiCycle>(
+
+
+const productSchema = new Schema<BiCycle>(
         {
           name: {
             type: String,
             required: [true, "Product name is required"],
-            min: [3, "Product name must be at least 3 characters long"],
-            max: [50, "Product name cannot exceed 50 characters"],
+            min: [3, "At least 3 characters long"],
+            max: [50, "Cannot exceed 50 characters"],
             trim: true,
           },
           brand: {
             type: String,
             required: [true, "Brand is required"],
-            min: [2, "Brand must be at least 2 characters long"],
+            min: [2, "At least 2 characters long"],
             max: [30, "Brand cannot exceed 30 characters"],
             trim: true,
           },
@@ -32,8 +34,8 @@ import { BiCycle } from "./product.interface";
           description: {
             type: String,
             required: [true, "Description is required"],
-            min: [10, "Description must be at least 10 characters long"],
-            max: [500, "Description cannot exceed 500 characters"],
+            min: [10, "At least 10 characters long"],
+            max: [500, "Cannot exceed 500 characters"],
             trim: true,
           },
           quantity: {

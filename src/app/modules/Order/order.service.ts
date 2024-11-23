@@ -30,6 +30,9 @@ const getRevenueFromDb = async () =>{
   return revenue[0];
   };
  
+const getAllOrdersFromDb = async () => {
+  const orders = await OrderModel.find();
+  return orders;
+}
 
-
-export const orderServices ={ createOrderIntoDb, getRevenueFromDb}
+export const orderServices ={ createOrderIntoDb, getRevenueFromDb, getAllOrdersFromDb}
