@@ -9,7 +9,7 @@ app.use(express.json())
 app.use('/api/orders', UserRouter)
 app.use('/api/products', UseRouter)
 app.get('/', (req: Request, res: Response) => {
-    res.send('Welcome to the product ')
+    res.send('Welcome to the Bi-Cycle Store 🔜')
   })
 export default app
 
