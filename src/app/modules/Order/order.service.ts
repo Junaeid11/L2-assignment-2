@@ -3,11 +3,12 @@
 import { Order } from "./order.interface";
 import OrderModel from "./order.model";
 
-
+//creating a order
 const createOrderIntoDb = async (data: Order)=>{
     const result =await OrderModel.create(data)
     return result
 }
+//getting revenue
 const getRevenueFromDb = async () =>{
 
   

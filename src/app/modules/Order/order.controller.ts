@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { orderServices } from "./order.service";
-
+//for creating a Order
 const createOrder = async (req: Request, res: Response) => {
     try {
    const data = req.body;
@@ -20,7 +20,7 @@ const createOrder = async (req: Request, res: Response) => {
       });
     }
   };
-  
+//for getting revenue
 const getRevenue =async (req:Request, res:Response)=>{
     try{
         const data = await orderServices.getRevenueFromDb();
@@ -38,7 +38,7 @@ const getRevenue =async (req:Request, res:Response)=>{
         })
     }
 }
-
+//for getting all orders
 const getOrders = async (req:Request, res:Response)=>{
     try{
         const data = await orderServices.getAllOrdersFromDb();
