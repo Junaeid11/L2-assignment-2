@@ -50,9 +50,14 @@ orderSchema.pre('save', async function (next) {
         await productDetails.save();
         next()
     }
-
 })
-
+//for removing __v
+orderSchema.set('toJSON', {
+    transform:(doc ,value)=>{
+      delete value.__v;
+      return value;
+    }
+  })
 
 
 const OrderModel = model<Order>('Order', orderSchema);

@@ -54,5 +54,13 @@ import { BiCycle } from "./product.interface";
 )
 
 
+//for removing __v
+productSchema.set('toJSON', {
+  transform:(doc ,value)=>{
+    delete value.__v;
+    return value;
+  }
+})
+
 const ProductModel = model<BiCycle>('Product', productSchema);
 export default ProductModel;
