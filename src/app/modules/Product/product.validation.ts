@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Zod, { z } from 'zod';
 
 const productValidationSchema = Zod.object({
@@ -10,26 +9,11 @@ const productValidationSchema = Zod.object({
         quantity: z.number().int("Quantity must be an integer").nonnegative("Quantity cannot be negative"),
         inStock: z.boolean(),
 })
-export const formatZodError  = (error: z.ZodError, stack?:string) => {
-        const errors = Object.fromEntries(
-          error.issues.map((issue) => [
-            issue.path[0],{
-              message: issue.message,
-              name: "ValidatorError",
-              properties: {
-                message: issue.message,
-                type: issue.code === "too_small" ? "min" : issue.code,
-              },
-              kind: issue.code === "too_small" ? "min" : issue.code,
-              path: issue.path[0]
-             
-            },
-          ])
-        );
+//knowing this from Zod documentation
+export const formatZodError  = (stack?:string ) => {
       
         return {
           name: "ValidationError",
-          errors,
           stack: stack
         };
       };

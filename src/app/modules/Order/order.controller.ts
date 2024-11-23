@@ -1,30 +1,26 @@
 import { Request, Response } from "express";
 import { orderServices } from "./order.service";
-import orderValidationSchema from "./order.validation";
 
-
-
-const createOrder =async (req:Request, res:Response,)=>{
-    try{
-    const data = req.body;
-    const validateOrder = orderValidationSchema.parse(data)
-
-    const result = await orderServices.createOrderIntoDb(validateOrder)
-    res.status(200).json({
-        message:'Order created successfully',
+const createOrder = async (req: Request, res: Response) => {
+    try {
+   const data = req.body;
+   const result = await orderServices.createOrderIntoDb(data);
+  
+      res.status(200).json({
+        message: 'Order created successfully',
         success: true,
-        data: result 
-       }) }
-       catch(err){
-           res.status(400).json({
-               message: "Order creation failed",
-               success: false,
-               error :err
-           })
-       }
-
-
-}
+        data: result,
+      });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      res.status(400).json({
+        message: 'Order creation failed',
+        success: false,
+        error: err.message,
+      });
+    }
+  };
+  
 const getRevenue =async (req:Request, res:Response)=>{
     try{
         const data = await orderServices.getRevenueFromDb();

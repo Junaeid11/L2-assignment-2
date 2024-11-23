@@ -1,29 +1,26 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.service";
-import productValidationSchema, { formatZodError } from "./product.validation";
-import { z } from "zod";
 
 
 const createProduct = async (req: Request, res: Response, ): Promise<void> => {
     try {
         const data = req.body;
-        const validateProduct =  productValidationSchema.parse(data)
-        const result = await productServices.createProductIntoDb(validateProduct);
+        const result = await productServices.createProductIntoDb(data);
         res.status(200).json({
             message: "Bicycle created successfully",
             success: true,
 
             data: result
         })
-    }catch (err){
-        if (err instanceof z.ZodError) {
-          const formattedError = formatZodError(err, err.stack);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }catch (err:any){{
            res.status(400).json({
             message: "Validation failed",
             success: false,
-            error: formattedError,
+            error: err,
+            stack: err.stack
           });
-        }
+        }  
     }
 }
 
