@@ -1,5 +1,5 @@
 
-import ProductModel from "../Product/product.model";
+import ProductModel from "../Bicyles/product.model";
 import { Order } from "./order.interface";
 import mongoose, { model, Schema } from "mongoose";
 

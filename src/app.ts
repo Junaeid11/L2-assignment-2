@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
 import express, { Application} from 'express'
-import UseRouter from './app/modules/Product/product.route'
-import UserRouter from './app/modules/Order/order.route'
+import router from './router'
+import globalErrorHandler from './app/middlewares/globalErrorhandler'
 
 
 const app: Application = express()
 app.use(express.json())
-app.use('/api/orders', UserRouter)
-app.use('/api/products', UseRouter)
+app.use('/api/', router)
+app.use(globalErrorHandler)
 app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to the Bi-Cycle Store')
   })
