@@ -31,6 +31,17 @@ const productSchema = new Schema<BiCycle>(
               message: "{VALUE} is not a valid type. Allowed types are Mountain, Road, Hybrid, Bmx, Electric.",
             },
           },
+          image: {
+            type: String,
+            required: [true, "Image is required"],
+            validate: {
+              validator: (value: string) => {
+                const regex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+                return regex.test(value);
+              },
+              message: "Invalid image URL",
+            },
+          },
           description: {
             type: String,
             required: [true, "Description is required"],

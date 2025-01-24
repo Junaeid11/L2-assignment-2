@@ -5,13 +5,14 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config";
 import catchAsync from "../utils/catchAsync";
 import { User } from "../modules/Users/user.model";
-import AppError from "../errors/AppError";
+import { APPerror } from "../errors/AppError";
+
 
 const auth = (...requiredRoles: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized!");
+      throw new APPerror(httpStatus.UNAUTHORIZED, "You are not authorized!");
     }
     const decoded = jwt.verify(
       token,
@@ -22,11 +23,11 @@ const auth = (...requiredRoles: string[]) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
+      throw new APPerror(httpStatus.NOT_FOUND, "This user is not found !");
     }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
+      throw new APPerror(
         httpStatus.UNAUTHORIZED,
         "You are not authorized"
       );
