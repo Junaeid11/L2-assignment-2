@@ -34,13 +34,6 @@ const productSchema = new Schema<BiCycle>(
           image: {
             type: String,
             required: [true, "Image is required"],
-            validate: {
-              validator: (value: string) => {
-                const regex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
-                return regex.test(value);
-              },
-              message: "Invalid image URL",
-            },
           },
           description: {
             type: String,
@@ -60,7 +53,7 @@ const productSchema = new Schema<BiCycle>(
           },
           inStock: {
             type: Boolean,
-            required: [true, "In-stock status is required"],
+            default: true
           },
         },
         { timestamps: true }

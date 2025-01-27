@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.service";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import  httpStatus  from "http-status";
 
 //for creating a product
 const createProduct = async (req: Request, res: Response, ): Promise<void> => {
@@ -24,23 +27,18 @@ const createProduct = async (req: Request, res: Response, ): Promise<void> => {
     }
 }
 //for getting all products
-const getProducts = async (req: Request, res: Response) => {
-    try {
-        const data = await productServices.getProductFromDb()
-        res.status(200).json({
-            message: 'Bicycles retrieved successfully',
-            success: true,
-            data: data
-        })
-    }
-    catch (err) {
-        res.status(400).json({
-            message: "Bicycles retrieve failed",
-            success: false,
-            err
-        })
-    }
-}
+const getAllProducts = catchAsync(async (req, res) => {
+    const result = await productServices.getProductFromDb(req.query);
+  
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Course are retrieved successfully',
+     
+      data: result,
+      meta: result.meta,
+    });
+  });
 //for getting product by id
 const getProductById = async (req: Request, res: Response) => {
     try {
@@ -105,7 +103,7 @@ const deleteProducts = async (req: Request, res: Response) => {
 
 export const productController = {
     createProduct,
-    getProducts,
+    getAllProducts,
     getProductById,
     updateProducts,
     deleteProducts

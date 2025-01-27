@@ -4,7 +4,7 @@ const ProductRouter = Router()
 
 
 ProductRouter.post('/', productController.createProduct)
-ProductRouter.get('/', productController.getProducts)
+ProductRouter.get('/', productController.getAllProducts)
 ProductRouter.get('/:productId', productController.getProductById)
 ProductRouter.put('/:productId', productController.updateProducts)
 ProductRouter.delete('/:productId', productController.deleteProducts)

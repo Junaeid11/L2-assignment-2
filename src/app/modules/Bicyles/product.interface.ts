@@ -6,5 +6,5 @@ export interface BiCycle{
     description:string;
     image:string;
     quantity:number;
-    inStock:boolean ;
+    inStock?:boolean ;
 }

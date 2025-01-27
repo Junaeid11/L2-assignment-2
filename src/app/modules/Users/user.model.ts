@@ -24,7 +24,15 @@ const UserSchema = new Schema<TUser>({
     enum: ['admin', 'customer'],
     type: String,
     default: 'customer'
-  }
+  },
+  isActive:{
+    type: Boolean,
+    default:true
+
+  },
+  phone: { type: String, default: "N/A" },
+  address: { type: String, default: "N/A" },
+  city: { type: String, default: "N/A" },
 })
 
 UserSchema.methods.comparePassword = async function (
@@ -32,6 +40,12 @@ UserSchema.methods.comparePassword = async function (
 ): Promise<boolean> {
   return bcrypt.compare(candidatePassword, this.password);
 };
+UserSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+
 UserSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;

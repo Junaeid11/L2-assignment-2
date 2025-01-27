@@ -22,11 +22,38 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.ACCEPTED,
     success: true,
     message: "Logged in successfully",
-    data,
+    data: {
+      accessToken: data,
+    },
+  });
+});
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const data = await UserService.getUserFromDb();
+  sendResponse(res, {
+    statusCode: httpStatus.ACCEPTED,
+    success: true,
+    message: "Users retrieved successfully",
+    data
+  
+  });
+});
+const changePassword = catchAsync(async (req, res) => {
+  const { ...passwordData } = req.body;
+
+  const result = await UserService.changePassword(req.user, passwordData);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password is updated successfully!',
+    data: result
   });
 });
 
+
+
 export const UserController = {
   registerUser,
+  getAllUsers,
   loginUser,
+  changePassword
 };

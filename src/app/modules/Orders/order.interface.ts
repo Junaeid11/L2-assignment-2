@@ -1,10 +1,25 @@
-import mongoose from "mongoose";
+import  { Types } from "mongoose";
 import { Document } from "mongoose";
 
 export interface Order extends Document {
-    email: string,
-    product: mongoose.Schema.Types.ObjectId,
-    quantity: number,
-    totalPrice:number
+    user: Types.ObjectId;
+    products: {
+        product: Types.ObjectId;
+        quantity: number;
+
+    },
+    status: "Pending" | "Paid" 
+    totalPrice: number,
+    transaction: {
+        id: string;
+        transactionStatus: string;
+        bank_status: string;
+        sp_code: string;
+        sp_message: string;
+        method: string;
+        date_time: string;
+      };
 
 }
+
+

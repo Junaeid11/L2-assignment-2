@@ -1,25 +1,21 @@
 import { Request, Response } from "express";
 import { orderServices } from "./order.service";
+import catchAsync from "../../utils/catchAsync";
+import  httpStatus  from "http-status";
+import sendResponse from "../../utils/sendResponse";
 //for creating a Order
-const createOrder = async (req: Request, res: Response) => {
-    try {
-   const data = req.body;
-   const result = await orderServices.createOrderIntoDb(data);
+const createOrder = catchAsync(async (req, res) => {
+    const user = req.user;
+    const order = await orderServices.createOrderIntoDb(user, req.body, req.ip!);
+    console.log(order)
   
-      res.status(200).json({
-        message: 'Order created successfully',
-        success: true,
-        data: result,
-      });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      res.status(400).json({
-        message: 'Order creation failed',
-        success: false,
-        error: err.message,
-      });
-    }
-  };
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: "Order placed successfully",
+      data: order,
+    });
+  });
 //for getting revenue
 const getRevenue =async (req:Request, res:Response)=>{
     try{
@@ -56,8 +52,25 @@ const getOrders = async (req:Request, res:Response)=>{
         })
     }
 }
+
+const verifyPayment = catchAsync(async (req, res) => {
+    const order = await orderServices.checkSinglePayment(req.query.order_id as string);
+    console.log(order)
+  
+    sendResponse(res, {
+        success:true,
+      statusCode: httpStatus.CREATED,
+      message: "Order verified successfully",
+      data: order,
+    });
+  });
+  
+
+
+
 export const orderController ={
     createOrder,
     getRevenue,
-    getOrders
+    getOrders,
+    verifyPayment
 }
